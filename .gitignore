@@ -1,0 +1,45 @@
+# dependencies / build output
+node_modules/
+.next/
+next-env.d.ts
+dist/
+build/
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.coverage
+htmlcov/
+
+# credentials & local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc
+
+# raw data and trained artifacts: never commit patient records
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.sqlite
+*.db
+data/
+raw_data/
+backend/model_artifacts/*.joblib
+backend/model_artifacts/*.pkl
+backend/model_artifacts/*.pickle
+backend/model_artifacts/metrics.json.bak
+
+# temporary / editor files
+*.log
+*.tmp
+.DS_Store
+.vscode/
+.idea/
+tmp/

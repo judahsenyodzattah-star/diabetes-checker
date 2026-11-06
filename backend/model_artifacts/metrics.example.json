@@ -1,0 +1,11 @@
+{
+  "_comment": "Template. Copy to metrics.json and replace nulls with YOUR evaluation results (test set). null = not supplied; nothing here is a real result.",
+  "model_name": null,
+  "evaluated_on": null,
+  "notes": null,
+  "confusion_matrix": { "tn": null, "fp": null, "fn": null, "tp": null },
+  "accuracy": null,
+  "precision": null,
+  "recall": null,
+  "f1": null
+}

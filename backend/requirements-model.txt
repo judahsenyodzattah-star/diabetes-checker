@@ -1,0 +1,5 @@
+# Only needed for MODEL_MODE=real. Pin to the versions you trained with!
+scikit-learn
+pandas
+joblib
+numpy
