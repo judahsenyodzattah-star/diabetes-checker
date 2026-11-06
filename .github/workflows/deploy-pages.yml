@@ -6,9 +6,13 @@ name: Deploy frontend to GitHub Pages
 # VITE_API_BASE_URL below at the backend's public origin (the backend must
 # allow this Pages origin in CORS_ORIGINS).
 
+# NOTE: this workflow only deploys once the repo's Pages source is switched
+# to "GitHub Actions" (Settings -> Pages -> Build and deployment -> Source).
+# Until then Pages is served legacy-style from the main branch root, where
+# the prebuilt app (index.html + assets/) is committed.
 on:
   push:
-    branches: [main, arena/ecfe37c3-dibetes-checker]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
