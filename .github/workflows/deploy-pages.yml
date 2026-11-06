@@ -1,0 +1,62 @@
+name: Deploy frontend to GitHub Pages
+
+# Builds frontend/ (Vite + React) and publishes it to the repo's GitHub Pages
+# site. The app is served under /diabetes-checker/, so the build uses that
+# base path. Predictions are made by the FastAPI backend; point
+# VITE_API_BASE_URL below at the backend's public origin (the backend must
+# allow this Pages origin in CORS_ORIGINS).
+
+# NOTE: this workflow only deploys once the repo's Pages source is switched
+# to "GitHub Actions" (Settings -> Pages -> Build and deployment -> Source).
+# Until then Pages is served legacy-style from the main branch root, where
+# the prebuilt app (index.html + assets/) is committed.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies and build
+        working-directory: frontend
+        env:
+          # Public origin of the FastAPI backend used by the hosted app.
+          # Replace with the production API URL when one is deployed.
+          VITE_API_BASE_URL: https://8000-i60b322msseah98hlg8y9.e2b.app
+        run: |
+          npm ci
+          npm run build -- --base=/diabetes-checker/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
